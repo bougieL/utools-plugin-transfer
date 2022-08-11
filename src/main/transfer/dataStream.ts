@@ -7,7 +7,6 @@ export function setupDataStreamRouter(router: Router) {
   router.get('/file/:path', async (req: Request<{ path: string }>, res) => {
     const { params } = req;
     const fp = decodeURIComponent(params.path);
-    // console.log(params.path)
     const stat = await fs.stat(fp);
     res.header('Content-Length', String(stat.size));
     res.header('Content-Disposition', 'attachment');

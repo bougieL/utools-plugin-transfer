@@ -1,28 +1,42 @@
-import { TransferCache } from 'caches/transfer';
 import { IpcEvents } from 'const';
 import { TransferType } from 'const/Transfer';
 import { ipcMain } from 'electron';
 import { Router, Response } from 'express';
-import { v4 } from 'uuid';
+import { Device } from 'types';
 import { getServerName, getServerHost } from '../utils';
 
-const COOKIE_MAX_AGE = 1000 * 60 * 60 * 24 * 365;
+namespace DevicesManager {
+  const devices: Device[] = [];
+
+  function notify() {
+    ipcMain.emit(IpcEvents.transferDevicesUpdate, devices);
+  }
+
+  export function connect(device: Device) {
+    const index = devices.findIndex(
+      (item) => item.deviceId === device.deviceId
+    );
+    if (index < 0) {
+      devices.unshift(device);
+      notify();
+    }
+  }
+
+  export function disconnect(deviceId: string) {
+    const index = devices.findIndex((item) => item.deviceId === deviceId);
+    if (index > -1) {
+      delete devices[index];
+      notify();
+    }
+  }
+}
 
 export function setupAliveRouter(router: Router) {
   const timerMap = new Map<string, ReturnType<typeof setTimeout>>();
   router.get('/deviceAlivePolling', async (req, res) => {
-    const { query, cookies } = req;
-    let deviceId = (query.deviceId as string) || cookies?.deviceId;
-    if (!deviceId) {
-      deviceId = v4();
-      res.cookie('deviceId', deviceId, {
-        maxAge: COOKIE_MAX_AGE,
-        // httpOnly: true,
-        sameSite: 'none',
-        secure: true,
-      });
-    }
-    TransferCache.connect({
+    const { query } = req;
+    const deviceId = query.deviceId as string;
+    DevicesManager.connect({
       deviceId,
       deviceName: query.deviceName as string,
       deviceHost: req.ip,
@@ -31,7 +45,7 @@ export function setupAliveRouter(router: Router) {
     timerMap.set(
       deviceId,
       setTimeout(() => {
-        TransferCache.disconnect(deviceId);
+        DevicesManager.disconnect(deviceId);
         timerMap.delete(deviceId);
       }, 10000)
     );

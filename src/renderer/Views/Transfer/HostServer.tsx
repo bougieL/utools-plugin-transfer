@@ -5,12 +5,13 @@ import {
   MessageBarType,
   Stack,
 } from '@fluentui/react';
-import { TransferCache } from 'caches/transfer';
 import { shell } from 'electron';
-import fs from 'fs-extra';
 import { useEffect, useRef, useState } from 'react';
 import qrcode from 'qrcode';
-import { useAsync } from 'renderer/hooks';
+import { useAsync } from 'react-use';
+import { ServerConfig } from 'types';
+import { ipcRenderer } from 'electron/renderer';
+import { IpcEvents } from 'const';
 
 interface HostServerProps {
   bottomSlot: React.ReactNode;
@@ -18,15 +19,11 @@ interface HostServerProps {
 }
 
 export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
-  const [config, setConfig] = useState<TransferCache.ServerConfig>();
+  const [config, setConfig] = useState<ServerConfig>();
   useAsync(async () => {
-    const updater = async () => {
-      const c = await TransferCache.getServerConfig();
-      setConfig(c);
-    };
-    const p = await TransferCache.getServerConfigPath();
-    updater();
-    fs.watch(p, updater);
+    ipcRenderer.on(IpcEvents.transferServerStarted, (event, c) => {
+      setConfig(c)
+    })
   }, []);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {

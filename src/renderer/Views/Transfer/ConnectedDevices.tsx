@@ -6,21 +6,18 @@ import {
   Stack,
   Text,
 } from '@fluentui/react';
-import { TransferCache } from 'caches/transfer';
-import fs from 'fs-extra';
+import { IpcEvents } from 'const';
+import { ipcRenderer } from 'electron';
 import { Fragment, useState } from 'react';
-import { useAsync } from 'renderer/hooks';
+import { useAsync } from 'react-use';
+import { Device } from 'types';
 
 export function ConnectedDevices() {
-  const [devices, setDevices] = useState<TransferCache.Device[]>([]);
+  const [devices, setDevices] = useState<Device[]>([]);
   useAsync(async () => {
-    const updater = async () => {
-      const c = await TransferCache.getConnectedDevices();
-      setDevices(c);
-    };
-    const p = await TransferCache.getConnectedDevicesPath();
-    updater();
-    fs.watch(p, updater);
+    ipcRenderer.on(IpcEvents.transferDevicesUpdate, (event, devices) => {
+      setDevices(devices);
+    });
   }, []);
   return (
     <Stack
