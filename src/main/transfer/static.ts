@@ -13,12 +13,12 @@ export function setupStaticRouter(router: Router) {
     let text = '';
     if (isDev) {
       text = await readDevText(
-        '../../../../release/app/dist/transfer/index.html'
+        '../../../dist/transfer/index.html'
       );
     } else {
       text = await import(
         // @ts-ignore import inline will pack module as string to main.js bundle
-        '../../../../release/app/dist/transfer/index.html?raw'
+        '../../../dist/transfer/index.html?raw'
       ).then((res) => res.default);
     }
     res.header('content-type', 'text/html; charset=utf-8');
@@ -30,12 +30,12 @@ export function setupStaticRouter(router: Router) {
     let text = '';
     if (isDev) {
       text = await readDevText(
-        '../../../../release/app/dist/transfer/transfer.js'
+        '../../../dist/transfer/transfer.js'
       );
     } else {
       text = await import(
         // @ts-ignore
-        '../../../../release/app/dist/transfer/transfer.js?raw'
+        '../../../dist/transfer/transfer.js?raw'
       ).then((res) => res.default);
     }
     res.header('content-type', 'application/javascript');
@@ -47,12 +47,12 @@ export function setupStaticRouter(router: Router) {
     let text = '';
     if (isDev) {
       text = await readDevText(
-        '../../../../release/app/dist/transfer/style.css'
+        '../../../dist/transfer/style.css'
       );
     } else {
       text = await import(
         // @ts-ignore
-        '../../../../release/app/dist/transfer/style.css?raw'
+        '../../../dist/transfer/style.css?raw'
       ).then((res) => res.default);
     }
     res.header('content-type', 'text/css');

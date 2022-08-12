@@ -10,18 +10,13 @@ const srcRendererPath = path.join(srcPath, 'renderer');
 const srcTransferPath = path.join(srcPath, 'transfer');
 
 const releasePath = path.join(rootPath, 'release');
-const appPath = path.join(releasePath, 'app');
-const appPackagePath = path.join(appPath, 'package.json');
-const appNodeModulesPath = path.join(appPath, 'node_modules');
 const srcNodeModulesPath = path.join(srcPath, 'node_modules');
 const assetsPath = path.join(rootPath, 'assets');
 
-const distPath = path.join(appPath, 'dist');
+const distPath = path.join(rootPath, 'dist');
 const distMainPath = path.join(distPath, 'main');
 const distRendererPath = path.join(distPath, 'renderer');
 const distTransferPath = path.join(distPath, 'transfer');
-
-const buildPath = path.join(releasePath, 'build');
 
 export default {
   rootPath,
@@ -31,14 +26,10 @@ export default {
   srcRendererPath,
   srcTransferPath,
   releasePath,
-  appPath,
-  appPackagePath,
-  appNodeModulesPath,
   srcNodeModulesPath,
   distPath,
   distMainPath,
   distRendererPath,
   distTransferPath,
-  buildPath,
   assetsPath,
 };
