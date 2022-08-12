@@ -7,20 +7,19 @@ import {
 } from '@fluentui/react';
 import { IpcEvents } from 'const';
 import { TransferType } from 'const/Transfer';
-import { clipboard, ipcRenderer } from 'electron';
 
 export function Clipboard() {
   const handleSendClick = () => {
-    const text = clipboard.readText();
+    const text = navigator.clipboard.readText();
     if (text) {
-      ipcRenderer.send(IpcEvents.transferSSEData, {
+      window.electron.ipcRenderer.send(IpcEvents.transferSSEData, {
         type: TransferType.sendClipboard,
         payload: text,
       });
     }
   };
   const handleGetClick = () => {
-    ipcRenderer.send(IpcEvents.transferSSEData, {
+    window.electron.ipcRenderer.send(IpcEvents.transferSSEData, {
       type: TransferType.getClipboard,
     });
   };

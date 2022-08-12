@@ -1,6 +1,5 @@
 import { useDropzone } from 'react-dropzone';
 import { Text } from '@fluentui/react';
-import { ipcRenderer } from 'electron';
 import { IpcEvents } from 'const';
 
 export interface File {
@@ -23,7 +22,7 @@ export function Dropzone({ value = [], onChange }: Props) {
   });
   const handleClick = async () => {
     try {
-      const { filePaths } = await ipcRenderer.invoke(
+      const { filePaths } = await window.electron.ipcRenderer.invoke(
         IpcEvents.electronDialogShowOpenDialog,
         { properties: ['openFile', 'multiSelections'] }
       );

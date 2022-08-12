@@ -7,7 +7,6 @@ import {
   Text,
 } from '@fluentui/react';
 import { IpcEvents } from 'const';
-import { ipcRenderer } from 'electron';
 import { Fragment, useState } from 'react';
 import { useAsync } from 'react-use';
 import { Device } from 'types';
@@ -15,7 +14,7 @@ import { Device } from 'types';
 export function ConnectedDevices() {
   const [devices, setDevices] = useState<Device[]>([]);
   useAsync(async () => {
-    ipcRenderer.on(IpcEvents.transferDevicesUpdate, (event, devices) => {
+    window.electron.ipcRenderer.on(IpcEvents.transferDevicesUpdate, (event, devices) => {
       setDevices(devices);
     });
   }, []);

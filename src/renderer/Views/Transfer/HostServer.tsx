@@ -5,12 +5,10 @@ import {
   MessageBarType,
   Stack,
 } from '@fluentui/react';
-import { shell } from 'electron';
 import { useEffect, useRef, useState } from 'react';
 import qrcode from 'qrcode';
 import { useAsync } from 'react-use';
 import { ServerConfig } from 'types';
-import { ipcRenderer } from 'electron/renderer';
 import { IpcEvents } from 'const';
 
 interface HostServerProps {
@@ -21,7 +19,7 @@ interface HostServerProps {
 export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
   const [config, setConfig] = useState<ServerConfig>();
   useAsync(async () => {
-    ipcRenderer.on(IpcEvents.transferServerStarted, (event, c) => {
+    window.electron.ipcRenderer.on(IpcEvents.transferServerStarted, (event, c) => {
       setConfig(c)
     })
   }, []);
@@ -55,7 +53,7 @@ export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
           target="_blank"
           onClick={(event) => {
             event.preventDefault();
-            shell.openExternal(config.serverHost);
+            window.electron.shell.openExternal(config.serverHost);
           }}
         >
           Open transfer page

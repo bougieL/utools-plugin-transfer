@@ -1,0 +1,12 @@
+{
+	"main": "./dist/renderer/index.html",
+	"preload": "./dist/main/main.js",
+	"logo": "logo.png",
+	"features": [
+		{
+		  "code": "Transfer",
+		  "explain": "File Transfer",
+			"cmds":["transfer", "文件", "传输"]
+		}
+	]
+}

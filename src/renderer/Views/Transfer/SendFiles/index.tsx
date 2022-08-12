@@ -1,7 +1,6 @@
 import { DefaultButton, Label, PrimaryButton, Stack } from '@fluentui/react';
 import { IpcEvents } from 'const';
 import { TransferType } from 'const/Transfer';
-import { ipcRenderer } from 'electron';
 import { useState } from 'react';
 import { Dropzone, File } from './Dropzone';
 
@@ -19,7 +18,7 @@ export function SendFiles() {
   };
   const sendFiles = () => {
     // console.log('files', files);
-    ipcRenderer.send(IpcEvents.transferSSEData, {
+    window.electron.ipcRenderer.send(IpcEvents.transferSSEData, {
       type: TransferType.sendFiles,
       payload: files.map((item) => {
         return {
