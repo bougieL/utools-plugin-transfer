@@ -1,10 +1,10 @@
 // build as preload.js
 import { setupSever } from './setupServer';
-import { contextBridge, ipcRenderer, IpcRendererEvent, shell } from 'electron';
+import { ipcRenderer, IpcRendererEvent, shell } from 'electron';
 
 setupSever();
 
-contextBridge.exposeInMainWorld('electron', {
+window.electron = {
   ipcRenderer: {
     send(channel: string, args: unknown[]) {
       ipcRenderer.send(channel, args);
@@ -25,4 +25,4 @@ contextBridge.exposeInMainWorld('electron', {
       return shell.openExternal(url)
     }
   }
-});
+}

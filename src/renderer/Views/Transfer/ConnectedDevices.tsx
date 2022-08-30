@@ -14,9 +14,12 @@ import { Device } from 'types';
 export function ConnectedDevices() {
   const [devices, setDevices] = useState<Device[]>([]);
   useAsync(async () => {
-    window.electron.ipcRenderer.on(IpcEvents.transferDevicesUpdate, (event, devices) => {
-      setDevices(devices);
-    });
+    window.electron.ipcRenderer.on(
+      IpcEvents.transferDevicesUpdate,
+      (event, devices) => {
+        setDevices(devices);
+      }
+    );
   }, []);
   return (
     <Stack

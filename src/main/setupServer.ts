@@ -3,8 +3,7 @@ import address from 'address';
 import cookieParser from 'cookie-parser';
 import { getServerName, getServerPort } from './utils';
 import { router as transferRouter } from './transfer';
-import { ipcMain } from 'electron';
-import { IpcEvents } from 'const';
+import { ServerConfigManager } from './bridge/serverConfig';
 
 const app = express();
 
@@ -29,7 +28,7 @@ export async function setupSever() {
   const port = await getServerPort();
   return app.listen(port, async () => {
     const host = `http://${address.ip()}:${port}`;
-    ipcMain.emit(IpcEvents.transferServerStarted, {
+    ServerConfigManager.set({
       serverHost: `${host}/transfer`,
       serverName: getServerName(),
     })

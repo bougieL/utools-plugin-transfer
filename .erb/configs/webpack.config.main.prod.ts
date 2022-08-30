@@ -20,7 +20,7 @@ const configuration: webpack.Configuration = {
 
   mode: 'production',
 
-  target: 'electron-main',
+  target: 'electron-preload',
 
   entry: {
     main: path.join(webpackPaths.srcMainPath, 'index.ts'),
