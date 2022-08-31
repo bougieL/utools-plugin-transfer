@@ -5,7 +5,7 @@ export namespace DevicesManager {
 
   export function connect(device: Device) {
     const index = devices.findIndex(
-      (item) => item.deviceId === device.deviceId
+      (item) => item?.deviceId === device.deviceId
     );
     if (index < 0) {
       devices.unshift(device);
@@ -21,5 +21,5 @@ export namespace DevicesManager {
 }
 
 export function getDevices() {
-  return DevicesManager.devices;
+  return DevicesManager.devices.filter(Boolean);
 }

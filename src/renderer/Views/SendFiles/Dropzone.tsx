@@ -22,17 +22,17 @@ export function Dropzone({ value = [], onChange }: Props) {
   });
   const handleClick = async () => {
     try {
-      const { filePaths } = await window.electron.ipcRenderer.invoke(
-        IpcEvents.electronDialogShowOpenDialog,
-        { properties: ['openFile', 'multiSelections'] }
-      );
-      const files = filePaths.map((item: string) => {
-        return {
-          path: item,
-          name: item.split('/').pop(),
-        };
-      });
-      onChange?.(files);
+      // const { filePaths } = await window.electron.ipcRenderer.invoke(
+      //   IpcEvents.electronDialogShowOpenDialog,
+      //   { properties: ['openFile', 'multiSelections'] }
+      // );
+      // const files = filePaths.map((item: string) => {
+      //   return {
+      //     path: item,
+      //     name: item.split('/').pop(),
+      //   };
+      // });
+      // onChange?.(files);
     } catch (error) {}
   };
   return (

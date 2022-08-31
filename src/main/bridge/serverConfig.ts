@@ -1,9 +1,6 @@
-export namespace ServerConfigManager {
-  export interface ServerConfig {
-    serverHost: string;
-    serverName: string;
-  }
+import { ServerConfig } from 'types';
 
+export namespace ServerConfigManager {
   export let server: ServerConfig | null = null;
 
   export function set(config: ServerConfig) {

@@ -4,10 +4,11 @@ import {
   MessageBar,
   MessageBarType,
   Stack,
+  Text,
 } from '@fluentui/react';
 import { useEffect, useRef, useState } from 'react';
 import qrcode from 'qrcode';
-import { useAsync } from 'react-use';
+import { useAsync, useInterval } from 'react-use';
 import { ServerConfig } from 'types';
 import { IpcEvents } from 'const';
 
@@ -18,14 +19,17 @@ interface HostServerProps {
 
 export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
   const [config, setConfig] = useState<ServerConfig>();
+
   useAsync(async () => {
-    window.electron.ipcRenderer.on(
-      IpcEvents.transferServerStarted,
-      (event, c) => {
-        setConfig(c);
-      }
-    );
+    const config = window.electron.getServerConfig()
+    setConfig(config || undefined)
   }, []);
+
+  useInterval(async () => {
+    const config = window.electron.getServerConfig()
+    setConfig(config || undefined)
+  }, 3000)
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (!config?.serverHost) return;
@@ -44,7 +48,15 @@ export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
     );
   }, [config?.serverHost]);
   if (!config) {
-    return null;
+    return (
+      <Stack
+        styles={{ root: { flex: 1 } }}
+        verticalAlign="center"
+        horizontalAlign="center"
+      >
+        <Text>Starting transfer server...</Text>
+      </Stack>
+    );
   }
   return (
     <Stack tokens={{ childrenGap: 12 }} styles={{ root: { flex: 1 } }}>

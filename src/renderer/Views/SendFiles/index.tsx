@@ -18,7 +18,7 @@ export function SendFiles() {
   };
   const sendFiles = () => {
     // console.log('files', files);
-    window.electron.ipcRenderer.send(IpcEvents.transferSSEData, {
+    window.electron.sendSSE({
       type: TransferType.sendFiles,
       payload: files.map((item) => {
         return {

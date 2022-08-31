@@ -12,14 +12,14 @@ export function Clipboard() {
   const handleSendClick = () => {
     const text = navigator.clipboard.readText();
     if (text) {
-      window.electron.ipcRenderer.send(IpcEvents.transferSSEData, {
+      window.electron.sendSSE({
         type: TransferType.sendClipboard,
         payload: text,
       });
     }
   };
   const handleGetClick = () => {
-    window.electron.ipcRenderer.send(IpcEvents.transferSSEData, {
+    window.electron.sendSSE({
       type: TransferType.getClipboard,
     });
   };

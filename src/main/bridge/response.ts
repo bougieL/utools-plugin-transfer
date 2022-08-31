@@ -1,3 +1,4 @@
+import { TransferType } from 'const/Transfer';
 import { Response } from 'express';
 
 export namespace ResponseManager {
@@ -17,7 +18,7 @@ export namespace ResponseManager {
   }
 }
 
-export function sendSSE(data: { type: string, payload: any }) {
+export function sendSSE(data: { type: TransferType, payload: any }) {
   Array.from(ResponseManager.responses.values()).forEach(res => {
     res.write(ResponseManager.toEventStreamData(data))
   })

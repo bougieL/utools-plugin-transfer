@@ -1,7 +1,9 @@
-import { app, clipboard, Notification, shell } from 'electron';
+import { clipboard, Notification, shell } from 'electron';
 import { Router, Request } from 'express';
 import fs from 'fs-extra';
 import multer from 'multer';
+import path from 'path';
+import os from 'os';
 
 export function setupDataStreamRouter(router: Router) {
   router.get('/file/:path', async (req: Request<{ path: string }>, res) => {
@@ -16,7 +18,9 @@ export function setupDataStreamRouter(router: Router) {
 
   const storage = multer.diskStorage({
     destination(req, file, cb) {
-      cb(null, app.getPath('downloads'));
+      const downloads = path.join(os.homedir(), 'downloads');
+      fs.ensureDirSync(downloads);
+      cb(null, downloads);
     },
     filename(req, file, cb) {
       const t = Date.now();

@@ -6,16 +6,14 @@ import { Clipboard } from './Clipboard';
 
 export function Transfer() {
   return (
-    <Stack horizontal tokens={{ childrenGap: 12 }}>
-      <HostServer
-        bottomSlot={<ConnectedDevices />}
-        rightSlot={
-          <Stack tokens={{ childrenGap: 36 }}>
-            <SendFiles />
-            <Clipboard />
-          </Stack>
-        }
-      />
-    </Stack>
+    <HostServer
+      bottomSlot={<ConnectedDevices />}
+      rightSlot={
+        <Stack tokens={{ childrenGap: 36 }}>
+          <SendFiles />
+          <Clipboard />
+        </Stack>
+      }
+    />
   );
 }

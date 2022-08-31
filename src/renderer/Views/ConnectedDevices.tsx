@@ -6,21 +6,17 @@ import {
   Stack,
   Text,
 } from '@fluentui/react';
-import { IpcEvents } from 'const';
 import { Fragment, useState } from 'react';
-import { useAsync } from 'react-use';
+import { useAsync, useInterval } from 'react-use';
 import { Device } from 'types';
 
 export function ConnectedDevices() {
   const [devices, setDevices] = useState<Device[]>([]);
-  useAsync(async () => {
-    window.electron.ipcRenderer.on(
-      IpcEvents.transferDevicesUpdate,
-      (event, devices) => {
-        setDevices(devices);
-      }
-    );
-  }, []);
+  useInterval(() => {
+    const devices = window.electron.getDevices()
+    console.log(devices)
+    setDevices(devices)
+  }, 1000)
   return (
     <Stack
       styles={{
@@ -33,7 +29,7 @@ export function ConnectedDevices() {
       }}
     >
       <Label>Connected devices</Label>
-      {devices.filter(Boolean).map((item) => {
+      {devices.map((item) => {
         return (
           <Fragment key={item.deviceId}>
             <ActivityItem
