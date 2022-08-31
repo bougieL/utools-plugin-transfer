@@ -32,9 +32,9 @@ const configuration: webpack.Configuration = {
     path: webpackPaths.distTransferPath,
     publicPath: '/transfer',
     filename: 'transfer.js',
-    // library: {
-    //   type: 'umd',
-    // },
+    library: {
+      type: 'umd',
+    },
   },
 
   module: {

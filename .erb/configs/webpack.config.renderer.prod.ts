@@ -32,9 +32,10 @@ const configuration: webpack.Configuration = {
     path: webpackPaths.distRendererPath,
     publicPath: './',
     filename: 'renderer.js',
-    // library: {
-    //   type: 'umd',
-    // },
+    globalObject: 'this',
+    library: {
+      type: 'umd',
+    },
   },
 
   module: {

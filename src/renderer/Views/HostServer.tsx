@@ -6,7 +6,7 @@ import {
   Stack,
 } from '@fluentui/react';
 import { useEffect, useRef, useState } from 'react';
-// import qrcode from 'qrcode/build/qrcode';
+import qrcode from 'qrcode';
 import { useAsync } from 'react-use';
 import { ServerConfig } from 'types';
 import { IpcEvents } from 'const';
@@ -19,26 +19,29 @@ interface HostServerProps {
 export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
   const [config, setConfig] = useState<ServerConfig>();
   useAsync(async () => {
-    window.electron.ipcRenderer.on(IpcEvents.transferServerStarted, (event, c) => {
-      setConfig(c)
-    })
+    window.electron.ipcRenderer.on(
+      IpcEvents.transferServerStarted,
+      (event, c) => {
+        setConfig(c);
+      }
+    );
   }, []);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     if (!config?.serverHost) return;
-    // qrcode.toCanvas(
-    //   canvasRef.current,
-    //   config.serverHost,
-    //   {
-    //     width: 300,
-    //     scale: 0,
-    //     margin: 0,
-    //   },
-    //   (error) => {
-    //     if (error) console.error(error);
-    //     console.log('success!');
-    //   }
-    // );
+    qrcode.toCanvas(
+      canvasRef.current,
+      config.serverHost,
+      {
+        width: 300,
+        scale: 0,
+        margin: 0,
+      },
+      (error) => {
+        if (error) console.error(error);
+        console.log('success!');
+      }
+    );
   }, [config?.serverHost]);
   if (!config) {
     return null;
