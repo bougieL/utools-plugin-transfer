@@ -1,70 +1,87 @@
-import { useRef } from 'react';
 import { Id, toast } from 'react-toastify';
+import { Text } from 'transfer/components';
 import { saveByObjectUrl } from 'transfer/lib/saveFile';
-import { fetchFile, getFile } from 'transfer/requests';
+import { getFile, getFileDownloadUrl } from 'transfer/requests';
 import { TransferType } from 'const/Transfer';
+import { detectMobile } from 'transfer/lib/detectMobile';
 import { useServer } from './useServer';
 import { useServerAliveSse } from './useServerAliveSse';
 
-export function useReceiveFiles() {
+function getFilenameByPath(p: string) {
+  return p.replace(/^.*[\\/]/, '') || String(Date.now());
+}
+
+interface Options {
+  onReceiveManualFiles?: (
+    files: Array<{ name: string; download: string; size: number }>
+  ) => void;
+}
+
+export function useReceiveFiles(options?: Options) {
   const server = useServer();
-  const taostIdRef = useRef<Id>();
-  const handleProgress = (event: any) => {
-    // console.log(event);
-    if (taostIdRef.current) {
-      const progress = event.loaded / event.total;
-      // console.log(progress);
-      toast.update(taostIdRef.current, {
-        progress,
+
+  const handleProgress = (event: any, id: Id) => {
+    const progress = event.loaded / event.total;
+    toast.update(id, {
+      progress,
+    });
+  };
+
+  const downloadFileByAxios = async (file: { path: string }) => {
+    const id = toast.loading(
+      <>
+        <Text>Receiving files from {server?.serverName}</Text>
+        <br />
+        <Text variant="small">Do not close this page before success</Text>
+      </>,
+      { progress: 0, closeButton: false, closeOnClick: false, autoClose: false }
+    );
+
+    const downloadFiles = async () => {
+      const { path } = file;
+      const name = getFilenameByPath(path);
+      const data = await getFile(path, (event) => handleProgress(event, id));
+      saveByObjectUrl(data, name);
+    };
+    try {
+      await downloadFiles();
+      toast.update(id, {
+        type: 'success',
+        isLoading: false,
+        closeButton: true,
+        closeOnClick: true,
+        autoClose: 3000,
+        render() {
+          return <Text>Recevice files success 😄</Text>;
+        },
+      });
+    } catch (error) {
+      toast.update(id, {
+        type: 'error',
+        isLoading: false,
+        closeButton: true,
+        closeOnClick: true,
+        autoClose: 3000,
+        render() {
+          return <Text>Recevice files failed 🤡</Text>;
+        },
       });
     }
   };
+
   useServerAliveSse(async ({ type, payload }) => {
     if (type === TransferType.sendFiles) {
-      const downloadFiles = async () => {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const { path } of payload) {
-          const name = path.split('/').pop() || String(Date.now());
-          // eslint-disable-next-line no-await-in-loop
-          const data = await getFile(path, handleProgress);
-          saveByObjectUrl(data, name);
-        }
-      };
-      try {
-        taostIdRef.current = toast.loading(
-          <>
-            Receiving files from {server?.serverName}
-            <br />
-            Do not close this page before success
-          </>,
-          { progress: 0, closeButton: false }
+      if (payload.length === 1 && !detectMobile()) {
+        downloadFileByAxios(payload[0]);
+      } else {
+        options?.onReceiveManualFiles?.(
+          payload.map(({ path, size }: any) => ({
+            name: getFilenameByPath(path),
+            download: getFileDownloadUrl(path),
+            size,
+          }))
         );
-        await downloadFiles();
-        if (taostIdRef.current) {
-          toast.update(taostIdRef.current, {
-            type: 'success',
-            isLoading: false,
-            closeButton: true,
-            autoClose: 3000,
-            render() {
-              return 'Recevice files success';
-            },
-          });
-        }
-      } catch (error) {
-        if (taostIdRef.current) {
-          toast.update(taostIdRef.current, {
-            type: 'error',
-            isLoading: false,
-            closeButton: true,
-            autoClose: 3000,
-            render() {
-              return 'Recevice files failed';
-            },
-          });
-        }
       }
-      taostIdRef.current = undefined;
     }
   });
 }
