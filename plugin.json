@@ -1,12 +1,20 @@
 {
-	"main": "./dist/renderer/index.html",
-	"preload": "./dist/main/main.js",
-	"logo": "logo.png",
-	"features": [
-		{
-		  "code": "Transfer",
-		  "explain": "File Transfer",
-			"cmds":["transfer", "文件", "传输"]
-		}
-	]
+  "main": "./dist/renderer/index.html",
+  "preload": "./dist/main/main.js",
+  "logo": "logo.png",
+  "features": [
+    {
+      "code": "文件传输助手",
+      "explain": "局域网跨端文件传输",
+      "cmds": [
+        "file",
+        "transfer",
+        "file transfer",
+        "文件",
+        "传输",
+        "文件传输",
+        "传送"
+      ]
+    }
+  ]
 }
