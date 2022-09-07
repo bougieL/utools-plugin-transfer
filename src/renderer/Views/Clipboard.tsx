@@ -5,21 +5,20 @@ import {
   Stack,
   TextField,
 } from '@fluentui/react';
-import { IpcEvents } from 'const';
 import { TransferType } from 'const/Transfer';
 
 export function Clipboard() {
   const handleSendClick = () => {
     const text = navigator.clipboard.readText();
     if (text) {
-      window.electron.sendSSE({
+      window.preload.sendSSE({
         type: TransferType.sendClipboard,
         payload: text,
       });
     }
   };
   const handleGetClick = () => {
-    window.electron.sendSSE({
+    window.preload.sendSSE({
       type: TransferType.getClipboard,
     });
   };

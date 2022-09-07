@@ -1,1 +1,1 @@
-export * from './IpcEvents';
+export * from './Transfer';

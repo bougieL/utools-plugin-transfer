@@ -1,6 +1,5 @@
 import { useDropzone } from 'react-dropzone';
 import { Text } from '@fluentui/react';
-import { IpcEvents } from 'const';
 
 export interface File {
   name: string;
@@ -22,17 +21,17 @@ export function Dropzone({ value = [], onChange }: Props) {
   });
   const handleClick = async () => {
     try {
-      // const { filePaths } = await window.electron.ipcRenderer.invoke(
-      //   IpcEvents.electronDialogShowOpenDialog,
-      //   { properties: ['openFile', 'multiSelections'] }
-      // );
-      // const files = filePaths.map((item: string) => {
-      //   return {
-      //     path: item,
-      //     name: item.split('/').pop(),
-      //   };
-      // });
-      // onChange?.(files);
+      const filePaths = window.utools.showOpenDialog({
+        properties: ['openFile', 'multiSelections'],
+      });
+      if (!filePaths) return;
+      const files = filePaths.map((item: string) => {
+        return {
+          path: item,
+          name: item.split('/').pop() || 'unknown',
+        };
+      });
+      onChange?.(files);
     } catch (error) {}
   };
   return (
@@ -40,8 +39,8 @@ export function Dropzone({ value = [], onChange }: Props) {
     <div
       {...getRootProps()}
       style={{
-        width: 'calc(100vw - 360px)',
-        height: 'calc(100vh - 370px)',
+        width: 'calc(100vw - 300px)',
+        height: 'calc(100vh - 280px)',
         // aspectRatio: '3 / 2',
         border: '1px solid #ccc',
         display: 'flex',

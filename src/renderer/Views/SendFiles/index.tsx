@@ -1,5 +1,4 @@
 import { DefaultButton, Label, PrimaryButton, Stack } from '@fluentui/react';
-import { IpcEvents } from 'const';
 import { TransferType } from 'const/Transfer';
 import { useState } from 'react';
 import { Dropzone, File } from './Dropzone';
@@ -18,7 +17,7 @@ export function SendFiles() {
   };
   const sendFiles = () => {
     // console.log('files', files);
-    window.electron.sendSSE({
+    window.preload.sendSSE({
       type: TransferType.sendFiles,
       payload: files.map((item) => {
         return {

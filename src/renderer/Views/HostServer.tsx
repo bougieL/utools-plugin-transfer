@@ -10,7 +10,6 @@ import { useEffect, useRef, useState } from 'react';
 import qrcode from 'qrcode';
 import { useAsync, useInterval } from 'react-use';
 import { ServerConfig } from 'types';
-import { IpcEvents } from 'const';
 
 interface HostServerProps {
   bottomSlot: React.ReactNode;
@@ -21,14 +20,14 @@ export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
   const [config, setConfig] = useState<ServerConfig>();
 
   useAsync(async () => {
-    const config = window.electron.getServerConfig()
-    setConfig(config || undefined)
+    const config = await window.preload.getServerConfig();
+    setConfig(config);
   }, []);
 
   useInterval(async () => {
-    const config = window.electron.getServerConfig()
-    setConfig(config || undefined)
-  }, 3000)
+    const config = await window.preload.getServerConfig();
+    setConfig(config);
+  }, 5000);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -37,7 +36,7 @@ export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
       canvasRef.current,
       config.serverHost,
       {
-        width: 300,
+        width: 250,
         scale: 0,
         margin: 0,
       },
@@ -68,13 +67,13 @@ export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
           target="_blank"
           onClick={(event) => {
             event.preventDefault();
-            window.electron.shell.openExternal(config.serverHost);
+            window.utools.shellOpenExternal(config.serverHost);
           }}
         >
           Open transfer page
         </Link>
       </MessageBar>
-      <Stack horizontal tokens={{ childrenGap: 36 }}>
+      <Stack horizontal tokens={{ childrenGap: 24 }}>
         <Stack tokens={{ childrenGap: 24 }}>
           <Stack>
             <Label>Qrcode</Label>

@@ -7,22 +7,23 @@ import {
   Text,
 } from '@fluentui/react';
 import { Fragment, useState } from 'react';
-import { useAsync, useInterval } from 'react-use';
+import { useInterval } from 'react-use';
 import { Device } from 'types';
 
 export function ConnectedDevices() {
   const [devices, setDevices] = useState<Device[]>([]);
+
   useInterval(() => {
-    const devices = window.electron.getDevices()
-    console.log(devices)
+    const devices = window.preload.getDevices()
     setDevices(devices)
-  }, 1000)
+  }, 3000)
+
   return (
     <Stack
       styles={{
         root: {
           flex: 1,
-          maxHeight: 'calc(100vh - 515px)',
+          maxHeight: 'calc(100vh - 420px)',
           overflow: 'auto',
           overflowX: 'hidden',
         },
@@ -39,7 +40,7 @@ export function ConnectedDevices() {
               timeStamp={item.deviceHost}
               styles={{
                 root: {
-                  width: 300,
+                  width: 250,
                 },
               }}
             />

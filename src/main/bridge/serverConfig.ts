@@ -1,13 +1,9 @@
+import { getServerHost, getServerName } from 'main/utils';
 import { ServerConfig } from 'types';
 
-export namespace ServerConfigManager {
-  export let server: ServerConfig | null = null;
-
-  export function set(config: ServerConfig) {
-    server = config;
+export async function getServerConfig(): Promise<ServerConfig> {
+  return {
+    serverHost: `${await getServerHost()}/transfer`,
+    serverName: getServerName(),
   }
-}
-
-export function getServerConfig() {
-  return ServerConfigManager.server;
 }

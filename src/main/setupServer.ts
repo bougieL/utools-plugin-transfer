@@ -1,9 +1,7 @@
 import express from 'express';
-import address from 'address';
 import cookieParser from 'cookie-parser';
-import { getServerName, getServerPort } from './utils';
+import { getServerPort } from './utils';
 import { router as transferRouter } from './transfer';
-import { ServerConfigManager } from './bridge/serverConfig';
 
 const app = express();
 
@@ -27,10 +25,6 @@ app.use('/transfer', transferRouter);
 export async function setupSever() {
   const port = await getServerPort();
   return app.listen(port, async () => {
-    const host = `http://${address.ip()}:${port}`;
-    ServerConfigManager.set({
-      serverHost: `${host}/transfer`,
-      serverName: getServerName(),
-    })
+    // const host = `http://${address.ip()}:${port}`;
   });
 }

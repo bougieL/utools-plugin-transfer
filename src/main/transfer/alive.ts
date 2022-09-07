@@ -1,5 +1,5 @@
 import { TransferType } from 'const/Transfer';
-import { Router, Response } from 'express';
+import { Router } from 'express';
 import { DevicesManager } from 'main/bridge/devices';
 import { ResponseManager } from 'main/bridge/response';
 import { getServerName, getServerHost } from '../utils';

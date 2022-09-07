@@ -1,4 +1,4 @@
-import { clipboard, Notification, shell } from 'electron';
+import { clipboard } from 'electron';
 import { Router, Request } from 'express';
 import fs from 'fs-extra';
 import multer from 'multer';
@@ -35,14 +35,7 @@ export function setupDataStreamRouter(router: Router) {
   router.post('/files', upload.array('files'), async (req, res) => {
     const files = Array.isArray(req.files) ? req.files : req.files?.files;
     if (files && files.length > 0) {
-      const noti = new Notification({
-        title: 'Receive files successfully 😄',
-        body: `From ${req.query.deviceName}`,
-      });
-      noti.show();
-      noti.on('click', () => {
-        shell.showItemInFolder(files[0].path);
-      });
+      window.utools.showNotification('Receive files successfully 😄')
     }
     res.send('ok');
   });
@@ -52,13 +45,9 @@ export function setupDataStreamRouter(router: Router) {
   });
 
   router.post('/clipboard', async (req: Request<any, any>, res) => {
-    // console.log('req.body === ', req.body);
     if (req.body) {
       clipboard.writeText(req.body.data);
-      new Notification({
-        title: 'Clipboard updated',
-        body: `Successfully get clipboard from ${req.query.deviceName}`,
-      }).show();
+      window.utools.showNotification('Clipboard updated 😄')
     }
     res.send('ok');
   });
