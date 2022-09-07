@@ -28,5 +28,6 @@ npm-debug.log.*
 *.sass.d.ts
 *.scss.d.ts
 
-release
+release/*
+!release/plugin.json
 dist
