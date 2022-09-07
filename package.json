@@ -1,15 +1,14 @@
 {
-  "description": "Desktop apps from microsoft TTS",
+  "description": "utools plugin transfer",
   "keywords": [
+    "utools",
+    "plugin",
     "electron",
-    "boilerplate",
     "react",
     "typescript",
     "ts",
     "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "webpack"
   ],
   "repository": {
     "type": "git",
@@ -30,10 +29,8 @@
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "prepare": "husky install",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
-    "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only -r tsconfig-paths/register .",
-    "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
-    "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "start:transfer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.transfer.dev.ts"
+    "start:transfer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.transfer.dev.ts",
+    "release": "npm run build && sh release.sh"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
