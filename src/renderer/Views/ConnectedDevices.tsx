@@ -23,7 +23,7 @@ export function ConnectedDevices() {
       styles={{
         root: {
           flex: 1,
-          maxHeight: 'calc(100vh - 420px)',
+          maxHeight: 'calc(100vh - 370px)',
           overflow: 'auto',
           overflowX: 'hidden',
         },
