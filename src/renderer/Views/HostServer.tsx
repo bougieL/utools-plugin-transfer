@@ -77,7 +77,14 @@ export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
         <Stack tokens={{ childrenGap: 24 }}>
           <Stack>
             <Label>Qrcode</Label>
-            <canvas ref={canvasRef} />
+            <canvas
+              ref={canvasRef}
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                navigator.clipboard.writeText(config.serverHost);
+                window.renderer.showNotification('Transfer page url copied 😄');
+              }}
+            />
           </Stack>
           {bottomSlot}
         </Stack>

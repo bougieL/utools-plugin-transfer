@@ -35,7 +35,9 @@ export function setupDataStreamRouter(router: Router) {
   router.post('/files', upload.array('files'), async (req, res) => {
     const files = Array.isArray(req.files) ? req.files : req.files?.files;
     if (files && files.length > 0) {
-      window.utools.showNotification('Receive files successfully 😄')
+      window.renderer.showNotification('Receive files successfully 😄', () => {
+        window.utools.shellShowItemInFolder(files[0].path);
+      });
     }
     res.send('ok');
   });
@@ -47,7 +49,7 @@ export function setupDataStreamRouter(router: Router) {
   router.post('/clipboard', async (req: Request<any, any>, res) => {
     if (req.body) {
       clipboard.writeText(req.body.data);
-      window.utools.showNotification('Clipboard updated 😄')
+      window.renderer.showNotification('Clipboard updated 😄');
     }
     res.send('ok');
   });
