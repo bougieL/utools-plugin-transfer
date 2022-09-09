@@ -30,5 +30,4 @@ npm-debug.log.*
 
 release/*
 !release/plugin.json
-!release/logo.png
 dist

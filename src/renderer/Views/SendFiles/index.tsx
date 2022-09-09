@@ -1,6 +1,11 @@
-import { DefaultButton, Label, PrimaryButton, Stack } from 'renderer/components';
-import { TransferType } from 'const/Transfer';
 import { useState } from 'react';
+import {
+  DefaultButton,
+  Label,
+  PrimaryButton,
+  Stack,
+} from 'renderer/components';
+import { TransferType } from 'const/Transfer';
 import { Dropzone, File } from './Dropzone';
 
 const globalState: {
@@ -15,13 +20,13 @@ export function SendFiles() {
     setStateFiles(files);
     globalState.files = files;
   };
-  const sendFiles = () => {
-    // console.log('files', files);
+  const sendFiles = async () => {
     window.preload.sendSSE({
       type: TransferType.sendFiles,
       payload: files.map((item) => {
         return {
           path: item.path,
+          size: window.preload.fsStatSync(item.path).size,
         };
       }),
     });
