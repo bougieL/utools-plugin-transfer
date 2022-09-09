@@ -1,4 +1,4 @@
-import { DefaultButton, Label, PrimaryButton, Stack } from '@fluentui/react';
+import { DefaultButton, Label, PrimaryButton, Stack } from 'renderer/components';
 import { TransferType } from 'const/Transfer';
 import { useState } from 'react';
 import { Dropzone, File } from './Dropzone';

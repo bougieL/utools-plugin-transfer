@@ -4,7 +4,7 @@ import {
   PrimaryButton,
   Stack,
   TextField,
-} from '@fluentui/react';
+} from 'renderer/components';
 import { TransferType } from 'const/Transfer';
 
 export function Clipboard() {

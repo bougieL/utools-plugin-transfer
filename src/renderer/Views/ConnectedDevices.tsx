@@ -5,9 +5,9 @@ import {
   Separator,
   Stack,
   Text,
-} from '@fluentui/react';
+} from 'renderer/components';
 import { Fragment, useState } from 'react';
-import { useInterval } from 'react-use';
+import { useInterval } from 'renderer/hooks';
 import { Device } from 'types';
 
 export function ConnectedDevices() {

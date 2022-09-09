@@ -5,10 +5,10 @@ import {
   MessageBarType,
   Stack,
   Text,
-} from '@fluentui/react';
+} from 'renderer/components';
 import { useEffect, useRef, useState } from 'react';
 import qrcode from 'qrcode';
-import { useAsync, useInterval } from 'react-use';
+import { useAsync, useInterval } from 'renderer/hooks';
 import { ServerConfig } from 'types';
 
 interface HostServerProps {
