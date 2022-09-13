@@ -1,4 +1,6 @@
 {
+  "name": "utools-plugin-transfer",
+  "version": "1.0.0",
   "description": "utools plugin transfer",
   "keywords": [
     "utools",

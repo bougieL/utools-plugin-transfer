@@ -1,6 +1,8 @@
-cp -r ./dist/main/ ./release/main
-cp -r ./dist/renderer/ ./release/renderer
+rm -r release
+mkdir release ./release/dist
+cp -r ./dist/main/ ./release/dist/main
+cp -r ./dist/renderer/ ./release/dist/renderer
 cp -r ./screenshots/ ./release/screenshots
-cp readme.md ./release
-cp readme_en.md ./release
+cp readme_zh-CN.md ./release/readme.md
 cp logo.png ./release
+cp plugin.json ./release

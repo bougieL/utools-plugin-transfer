@@ -1,6 +1,6 @@
 {
-  "main": "./renderer/index.html",
-  "preload": "./main/main.js",
+  "main": "./dist/renderer/index.html",
+  "preload": "./dist/main/main.js",
   "logo": "logo.png",
   "features": [
     {

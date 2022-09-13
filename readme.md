@@ -1,19 +1,30 @@
-# 文件传输助手 ✈️
+# utools plugin transfer ✈️
 
 <div style="text-align: center; padding: 48px;">
   <img src="./logo.png" style="width: 100px;" />
 </div>
 
-使用 http 协议局域网文件传输。可进行跨端文件传输，另一端有浏览器即可。
+A [utools](https://u.tools/) plugin for transfer files between LAN devices, based on http protocol.
 
-## 电脑端
+## Features
+
+- Lightweight and easy-to-use UI
+- Support download and upload realtime progress, and notifcations for transfer result
+- Support Desktop push
+- Support transfer directory (Todo in plan)
+
+## Screenshots
+
+### Desktop
 
 <img src="./screenshots/server.png" style="max-width: 600px;" />
 
-<!-- ![](./screenshots/server.png) -->
+### Mobile
 
-## 另一端
-
-可以是任意有浏览器（IE 除外）的设备。
+Support for any device with new browsers.
 
 <img src="./screenshots/client.png" style="max-width: 300px;" />
+
+## License
+
+[MIT](./LICENSE)
