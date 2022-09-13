@@ -20,8 +20,8 @@ export function setupStaticRouter(router: Router) {
         '../../../dist/transfer/index.html?raw'
       ).then((res) => res.default);
     }
-    res.header('content-type', 'text/html; charset=utf-8');
-    res.header('cache-control', 'no-cache');
+    res.header('Content-Type', 'text/html; charset=utf-8');
+    res.header('Cache-Control', 'no-cache');
     res.send(text);
   });
 
@@ -37,8 +37,8 @@ export function setupStaticRouter(router: Router) {
         '../../../dist/transfer/transfer.js?raw'
       ).then((res) => res.default);
     }
-    res.header('content-type', 'application/javascript');
-    res.header('cache-control', 'no-cache');
+    res.header('Content-Type', 'application/javascript');
+    // res.header('cache-control', 'no-cache');
     res.send(text);
   });
 
@@ -54,8 +54,8 @@ export function setupStaticRouter(router: Router) {
         '../../../dist/transfer/style.css?raw'
       ).then((res) => res.default);
     }
-    res.header('content-type', 'text/css');
-    res.header('cache-control', 'no-cache');
+    res.header('Content-Type', 'text/css');
+    // res.header('cache-control', 'no-cache');
     res.send(text);
   });
 }

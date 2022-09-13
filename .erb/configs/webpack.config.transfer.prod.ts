@@ -31,7 +31,7 @@ const configuration: webpack.Configuration = {
   output: {
     path: webpackPaths.distTransferPath,
     publicPath: '/transfer',
-    filename: 'transfer.js',
+    filename: 'transfer.js?[contenthash]',
     library: {
       type: 'umd',
     },
@@ -99,7 +99,7 @@ const configuration: webpack.Configuration = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: 'style.css',
+      filename: 'style.css?[contenthash]',
     }),
 
     new BundleAnalyzerPlugin({

@@ -19,15 +19,14 @@ interface HostServerProps {
 export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
   const [config, setConfig] = useState<ServerConfig>();
 
-  useAsync(async () => {
+  const polling = async () => {
     const config = await window.preload.getServerConfig();
     setConfig(config);
-  }, []);
+  }
 
-  useInterval(async () => {
-    const config = await window.preload.getServerConfig();
-    setConfig(config);
-  }, 5000);
+  useAsync(polling, []);
+
+  useInterval(polling, 5000);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -46,17 +45,23 @@ export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
       }
     );
   }, [config?.serverHost]);
+
   if (!config) {
     return (
       <Stack
-        styles={{ root: { flex: 1 } }}
+        styles={{ root: { paddingTop: '20vh' } }}
         verticalAlign="center"
         horizontalAlign="center"
       >
-        <Text>Starting transfer server...</Text>
+        <Text variant="large">Starting transfer server, please wait...</Text>
+        <Text>
+          If stuck in this page for a long time, please try exit and restart
+          plugin
+        </Text>
       </Stack>
     );
   }
+
   return (
     <Stack tokens={{ childrenGap: 12 }} styles={{ root: { flex: 1 } }}>
       <MessageBar messageBarType={MessageBarType.success}>
@@ -80,6 +85,7 @@ export function HostServer({ rightSlot, bottomSlot }: HostServerProps) {
             <canvas
               ref={canvasRef}
               style={{ cursor: 'pointer' }}
+              title='click to copy'
               onClick={() => {
                 navigator.clipboard.writeText(config.serverHost);
                 window.renderer.showNotification('Transfer page url copied 😄');

@@ -6,6 +6,7 @@ import { getServerName, getServerHost } from '../utils';
 
 export function setupAliveRouter(router: Router) {
   const timerMap = new Map<string, ReturnType<typeof setTimeout>>();
+
   router.get('/deviceAlivePolling', async (req, res) => {
     const { query } = req;
     const deviceId = query.deviceId as string;
@@ -19,6 +20,7 @@ export function setupAliveRouter(router: Router) {
       deviceId,
       setTimeout(() => {
         DevicesManager.disconnect(deviceId);
+        ResponseManager.removeResponse(deviceId);
         timerMap.delete(deviceId);
       }, 10000)
     );
