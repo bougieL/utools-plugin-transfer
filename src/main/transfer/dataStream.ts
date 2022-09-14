@@ -4,6 +4,7 @@ import fs from 'fs-extra';
 import multer from 'multer';
 import path from 'path';
 import os from 'os';
+import { receiveFiledir } from 'lib/db';
 
 export function setupDataStreamRouter(router: Router) {
   router.get('/file/:path', async (req: Request<{ path: string }>, res) => {
@@ -17,12 +18,22 @@ export function setupDataStreamRouter(router: Router) {
   });
 
   const storage = multer.diskStorage({
-    destination(req, file, cb) {
-      const downloads = path.join(os.homedir(), 'downloads');
-      fs.ensureDirSync(downloads);
-      cb(null, downloads);
+    async destination(req, file, cb) {
+      const donwloads = path.join(os.homedir(), 'downloads');
+      const dest = receiveFiledir.get() || donwloads;
+      try {
+        await fs.ensureDir(dest);
+        cb(null, dest);
+      } catch (error) {
+        await fs.ensureDir(donwloads);
+        cb(null, donwloads);
+      }
     },
-    filename(req, file, cb) {
+    async filename(req, file, cb) {
+      if (await fs.pathExists(file.path)) {
+        cb(null, file.originalname);
+        return;
+      }
       const t = Date.now();
       const exts = file.originalname.split('.');
       const ext = exts.length > 1 ? exts.pop() : '';

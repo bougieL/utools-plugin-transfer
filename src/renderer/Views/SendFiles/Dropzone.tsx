@@ -1,3 +1,5 @@
+import { dropzoneDefaultPath } from 'lib/db';
+import { getFiledirByPath } from 'lib/path';
 import { useDropzone } from 'react-dropzone';
 import { Text } from 'renderer/components';
 
@@ -12,16 +14,26 @@ interface Props {
 }
 
 export function Dropzone({ value = [], onChange }: Props) {
-  const onDrop = (files: File[]) => {
+  const handleChange = (files: File[]) => {
+    if (files[0]) {
+      dropzoneDefaultPath.set(getFiledirByPath(files[0].path));
+    }
     onChange?.(files);
   };
+
+  const onDrop = (files: File[]) => {
+    handleChange(files);
+  };
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     noClick: true,
   });
+
   const handleClick = async () => {
     try {
       const filePaths = window.utools.showOpenDialog({
+        defaultPath: dropzoneDefaultPath.get(),
         properties: ['openFile', 'multiSelections'],
       });
       if (!filePaths) return;
@@ -31,9 +43,10 @@ export function Dropzone({ value = [], onChange }: Props) {
           name: item.split('/').pop() || 'unknown',
         };
       });
-      onChange?.(files);
+      handleChange(files);
     } catch (error) {}
   };
+
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div

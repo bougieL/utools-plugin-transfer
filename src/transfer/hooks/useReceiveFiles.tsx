@@ -4,12 +4,9 @@ import { saveByObjectUrl } from 'transfer/lib/saveFile';
 import { getFile, getFileDownloadUrl } from 'transfer/requests';
 import { TransferType } from 'const/Transfer';
 import { detectMobile } from 'transfer/lib/detectMobile';
+import { getFilenameByPath } from 'lib/path'
 import { useServer } from './useServer';
 import { useServerAliveSse } from './useServerAliveSse';
-
-function getFilenameByPath(p: string) {
-  return p.replace(/^.*[\\/]/, '') || String(Date.now());
-}
 
 interface Options {
   onReceiveManualFiles?: (
