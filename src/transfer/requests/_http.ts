@@ -16,7 +16,7 @@ export const http = axios.create({
   },
 });
 
-export function getDeviceId() {
+function getDeviceId() {
   const KEY = 'deviceId';
   let deviceId = localStorage.getItem(KEY);
   if (!deviceId) {
@@ -26,7 +26,7 @@ export function getDeviceId() {
   return deviceId;
 }
 
-export function getDeviceName() {
+function getDeviceName() {
   const matche = navigator.userAgent.match(/^[^(]+\((\w+)/)?.[1];
   return `${matche ? `${matche}@` : ''}${md5(navigator.userAgent)}`;
 }

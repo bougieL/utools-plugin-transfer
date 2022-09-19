@@ -8,17 +8,10 @@ import {
 import { TransferType } from 'const/Transfer';
 import { Dropzone, File } from './Dropzone';
 
-const globalState: {
-  files: File[];
-} = {
-  files: [],
-};
-
 export function SendFiles() {
-  const [files, setStateFiles] = useState(globalState.files);
+  const [files, setStateFiles] = useState<File[]>([]);
   const setFiles = (files: File[]) => {
     setStateFiles(files);
-    globalState.files = files;
   };
   const sendFiles = async () => {
     window.preload.sendSSE({

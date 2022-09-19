@@ -1,3 +1,6 @@
+
+import { useEffect, useRef, useState } from 'react';
+import qrcode from 'qrcode';
 import {
   Label,
   Link,
@@ -6,8 +9,6 @@ import {
   Stack,
   Text,
 } from 'renderer/components';
-import { useEffect, useRef, useState } from 'react';
-import qrcode from 'qrcode';
 import { useAsync, useInterval } from 'renderer/hooks';
 import { ServerConfig } from 'types';
 

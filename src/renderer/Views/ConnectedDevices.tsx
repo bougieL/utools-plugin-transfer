@@ -1,3 +1,4 @@
+import { Fragment, useState } from 'react';
 import {
   ActivityItem,
   Icon,
@@ -6,7 +7,6 @@ import {
   Stack,
   Text,
 } from 'renderer/components';
-import { Fragment, useState } from 'react';
 import { useInterval } from 'renderer/hooks';
 import { Device } from 'types';
 

@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import copy from 'copy-to-clipboard';
+import { toast } from 'react-toastify';
 import {
   Label,
   Stack,
@@ -7,11 +10,8 @@ import {
   Text,
 } from 'transfer/components';
 import { TransferType } from 'const/Transfer';
-import { useState } from 'react';
-import copy from 'copy-to-clipboard';
 import { useServer, useServerAliveSse } from 'transfer/hooks';
 import { getClipboard, sendClipboard } from 'transfer/requests';
-import { toast } from 'react-toastify';
 
 interface ClipboardProps {
   disabled?: boolean;

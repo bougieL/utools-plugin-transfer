@@ -20,6 +20,10 @@ export function serverAliveSse(
     console.log('event source open');
   };
   source.onmessage = ({ data }) => {
-    onReceiveData?.(JSON.parse(data));
+    try {
+      onReceiveData?.(JSON.parse(data));
+    } catch (error) {
+      console.error(error)
+    }
   };
 }

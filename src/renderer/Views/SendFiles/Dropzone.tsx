@@ -1,6 +1,6 @@
+import { useDropzone } from 'react-dropzone';
 import { dropzoneDefaultPath } from 'lib/db';
 import { getFiledirByPath } from 'lib/path';
-import { useDropzone } from 'react-dropzone';
 import { Text } from 'renderer/components';
 
 export interface File {

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Id, toast } from 'react-toastify';
 import {
   Label,
   Stack,
@@ -5,10 +7,8 @@ import {
   DefaultButton,
   Text,
 } from 'transfer/components';
-import { useState } from 'react';
 import { sendFiles } from 'transfer/requests';
 import { useServer } from 'transfer/hooks';
-import { Id, toast } from 'react-toastify';
 import { Dropzone } from './Dropzone';
 import { Clipboard } from './Clipboard';
 import { ReceiveFiles } from './ReceiveFiles';
