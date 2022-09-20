@@ -31,7 +31,7 @@ const configuration: webpack.Configuration = {
   output: {
     path: webpackPaths.distTransferPath,
     publicPath: '/transfer',
-    filename: 'transfer.js?[contenthash]',
+    filename: 'main.[contenthash].js',
     library: {
       type: 'umd',
     },
@@ -81,6 +81,15 @@ const configuration: webpack.Configuration = {
       }),
       new CssMinimizerPlugin(),
     ],
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          filename: 'vendors.[contenthash].js',
+          chunks: 'all',
+        },
+      },
+    },
   },
 
   plugins: [
@@ -99,7 +108,7 @@ const configuration: webpack.Configuration = {
     }),
 
     new MiniCssExtractPlugin({
-      filename: 'style.css?[contenthash]',
+      filename: 'style.[contenthash].css',
     }),
 
     new BundleAnalyzerPlugin({

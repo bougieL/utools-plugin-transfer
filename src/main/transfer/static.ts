@@ -1,61 +1,13 @@
 /* eslint-disable import/extensions */
-import fs from 'fs-extra';
 import path from 'path';
-import { Router } from 'express';
+import express from 'express';
 
-function readDevText(p: string) {
-  return fs.readFile(path.resolve(__dirname, p), 'utf-8');
-}
-
-export function setupStaticRouter(router: Router) {
-  router.get('/', async (req, res) => {
-    let text = '';
-    if (process.env.NODE_ENV === 'development') {
-      text = await readDevText(
-        '../../../dist/transfer/index.html'
-      );
-    } else {
-      text = await import(
-        // @ts-ignore import inline will pack module as string to main.js bundle
-        '../../../dist/transfer/index.html?raw'
-      ).then((res) => res.default);
-    }
-    res.header('Content-Type', 'text/html; charset=utf-8');
-    res.header('Cache-Control', 'no-cache');
-    res.send(text);
-  });
-
-  router.get('/transfer.js', async (req, res) => {
-    let text = '';
-    if (process.env.NODE_ENV === 'development') {
-      text = await readDevText(
-        '../../../dist/transfer/transfer.js'
-      );
-    } else {
-      text = await import(
-        // @ts-ignore
-        '../../../dist/transfer/transfer.js?raw'
-      ).then((res) => res.default);
-    }
-    res.header('Content-Type', 'application/javascript');
-    // res.header('cache-control', 'no-cache');
-    res.send(text);
-  });
-
-  router.get('/style.css', async (req, res) => {
-    let text = '';
-    if (process.env.NODE_ENV === 'development') {
-      text = await readDevText(
-        '../../../dist/transfer/style.css'
-      );
-    } else {
-      text = await import(
-        // @ts-ignore
-        '../../../dist/transfer/style.css?raw'
-      ).then((res) => res.default);
-    }
-    res.header('Content-Type', 'text/css');
-    // res.header('cache-control', 'no-cache');
-    res.send(text);
-  });
+export function setupStaticRouter(router: express.Router) {
+  let p = ''
+  if (process.env.NODE_ENV === 'development') {
+    p = path.resolve(__dirname, '../../../dist/transfer')
+  } else {
+    p = path.resolve(__dirname, '../transfer')
+  }
+  router.use('/', express.static(p))
 }

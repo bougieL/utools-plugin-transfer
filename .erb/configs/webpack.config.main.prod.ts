@@ -33,6 +33,10 @@ const configuration: webpack.Configuration = {
   },
 
   optimization: {
+    minimize: true,
+    splitChunks: {
+      chunks: 'async',
+    },
     minimizer: [
       new TerserPlugin({
         parallel: true,
@@ -44,7 +48,7 @@ const configuration: webpack.Configuration = {
     rules: [
       {
         resourceQuery: /raw/,
-        type: 'asset/source',
+        type: 'asset/resource',
       },
     ],
   },

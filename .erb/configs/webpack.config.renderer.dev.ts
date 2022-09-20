@@ -1,4 +1,4 @@
-import 'webpack-dev-server';
+// import 'webpack-dev-server';
 import path from 'path';
 import fs from 'fs';
 import webpack from 'webpack';
