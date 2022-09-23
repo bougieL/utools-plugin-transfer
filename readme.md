@@ -17,13 +17,13 @@ A [utools](https://u.tools/) plugin for transfer files between LAN devices, base
 
 ### Desktop
 
-<img src="./screenshots/server.png" style="max-width: 600px;" />
+<img src="./screenshots/server.png" style="width: 600px;" />
 
 ### Mobile
 
 Support for any device with new browsers.
 
-<img src="./screenshots/client.png" style="max-width: 300px;" />
+<img src="./screenshots/client.png" style="width: 300px;" />
 
 ## License
 
